@@ -1,5 +1,5 @@
 #!/bin/bash
-
+mkdir dist
 cp package.json dist
 cp index.js dist
 cp -r bin dist
