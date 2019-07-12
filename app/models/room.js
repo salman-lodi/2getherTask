@@ -4,23 +4,28 @@ const _ = require('lodash');
 
 var RoomSchema = new Schema({
     name:{
-        type: String,
-        required: true
+        type: String
+        // ,
+        // required: true
     },
     numberOfSeats:{
-        type: Number,
-        required: true,
+        type: Number
+        // ,
+        // required: true,
     },
     floorNumber:{
-        type: Number,
-        required:true 
+        type: String
+        // ,
+        // required:true 
     },
     whiteboard:{
-        type: Boolean,
-        required: true
+        type: Boolean
+        // ,
+        // required: true
     },
     roomPic:{
-        type: String,
+        type: String
+        ,
         required:false
     },
     conference_cost_in_credits:{

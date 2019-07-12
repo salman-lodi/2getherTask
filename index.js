@@ -8,8 +8,9 @@ var bodyParser = require('body-parser');
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var methodOverride = require('method-override');
+// var app = express.Router();
 var routes = require('./app/router/routes');
-var Raven = require('raven');
+// var Raven = require('raven');
 
 
 // Must configure Raven before doing anything else with it
@@ -23,7 +24,7 @@ var helmet = require('helmet');
 require('dotenv').config()
 var app = express();
 // The request handler must be the first middleware on the app
-app.use(Raven.requestHandler());
+// app.use(Raven.requestHandler());
 
 app.use(bodyParser.json({limit:'50mb',extended:true}));
 app.use(bodyParser.urlencoded({limit:'50mb', extended: true }));
@@ -74,7 +75,7 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-app.use(Raven.errorHandler());
+// app.use(Raven.errorHandler());
 
 
 if (process.env.NODE_ENV === "development") {

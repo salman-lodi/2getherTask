@@ -17,18 +17,18 @@ exports.addRoom = function(req, res, next) {
         })
     } else {
         let query = {
-            'name': req.body.room[constants.name]
+            'name': req.body.room[constants.NAME]
         }
         Room.findOne(query).then(result => {
             // Checking if result is empty or not.If not present then create
             if (!result) {
                 let data = {
-                    'name': req.body[constants.NAME],
-                    'numberOfSeats': req.body[constants.NUMBER_OF_SEATS],
-                    'floorNumber': req.body[constants.FLOOR_NUMBER],
-                    'whiteboard': req.body[constants.WHITEBOARD],
-                    'roomPic': req.body[constants.ROOM_PIC],
-                    'conference_cost_in_credits': req.body[constants.CONFERENCE_COST_IN_CREDITS]
+                    'name': req.body.room[constants.NAME],
+                    'numberOfSeats': req.body.room[constants.NUMBER_OF_SEATS],
+                    'floorNumber': req.body.room[constants.FLOOR_NUMBER],
+                    'whiteboard': req.body.room[constants.WHITEBOARD],
+                    'roomPic': req.body.room[constants.ROOM_PIC],
+                    'conference_cost_in_credits': req.body.room[constants.CONFERENCE_COST_IN_CREDITS]
                 }
                 let newRoom = new Room(data);
                 newRoom.save(function(err, result) {
@@ -46,6 +46,7 @@ exports.addRoom = function(req, res, next) {
             }
         })
         .catch(ResourceAlreadyPresentError, (e) => {
+            console.log("In catch block");
             res.status(400).json({
                 msg: constants.RESOURCE_ALREADY_PRESENT,
                 dbStatus: DatabaseSave.RESOURCE_ALREADY_PRESENT,
@@ -62,7 +63,7 @@ exports.getRooms = function(req,res,next){
     let pageNo = req.query[constants.PAGE_NUMBER] ? req.query[constants.PAGE_NUMBER] - 1 : 0;
     let limit = req.query[constants.LIMIT] ? req.query[constants.LIMIT] : 10;
     let offset = pageNo * limit;
-    Booking
+    Room
         .find()
         .skip(offset)
         .select('-createdAt -updatedAt')
