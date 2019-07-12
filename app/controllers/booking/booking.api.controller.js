@@ -11,12 +11,14 @@ import {
 const mongoose = require('mongoose');
 
 exports.createBooking = function(req,res,next){
+    // console.log('In createBooking');
     if (!req.body.booking || !req.body.booking[constants.USERNAME] || !req.body.booking[constants.DATE_TO_BOOK] || !req.body.booking[constants.SLOTS_REQUIRED]|| !req.body.booking[constants.ROOM_ID]) {
         return res.status(400).json({
             msg: constants.PARAMETER_MISSING + 'or' + constants.USERNAME + 'or' + constants.DATE_TO_BOOK + 'or' + constants.SLOTS_REQUIRED + 'or' +constants.ROOM_ID,
             dbStatus: DatabaseSave.FAILED
         })
     } else {
+        // console.log('In createBooking');
         let query = {
             'roomId': req.body.booking[constants.ROOM_ID],
             'reservations.slotNumber':{
@@ -42,9 +44,19 @@ exports.createBooking = function(req,res,next){
                         })
                         let data = {
                             'roomId': req.body.booking[constants.ROOM_ID],
-                            'dateToBook': req.body[constants.DATE_TO_BOOK],
+                            'dateToBook': req.body.booking[constants.DATE_TO_BOOK],
                             'reservations': reservations                            
                         } 
+                        let newBooking = new Booking(data);
+                        newBooking.save().then((result)=> {
+                            // if (err) return next(err);
+                            res.status(201).json({
+                                data: result,
+                                msg: constants.SUCCESS,
+                                dbStatus: DatabaseSave.SUCCESS
+                            })
+                        })
+                        .catch((err)=>{return next(err)});
                     } else{
                         let reservations = [];
                         _.forEach(req.body.booking[constants.SLOTS_REQUIRED],function(slot){

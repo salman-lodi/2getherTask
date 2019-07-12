@@ -26,6 +26,7 @@ var BookingSchema = new Schema({
 });
 
 BookingSchema.pre('save', function(next){
+    next();
     //operations to be done before saving booking
 })
 
